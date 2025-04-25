@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Planner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+    <!-- Welcome Modal -->
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content">
+            <h2>Welcome to Your Daily Planner</h2>
+            <p>Before you start planning your day, take a moment to meditate and center yourself.</p>
+            <div class="meditation-timer">
+                <span id="timer">5:00</span>
+                <button id="startMeditation">Start Meditation</button>
+            </div>
+            <button id="skipMeditation">Skip Meditation</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="modal">
+        <div class="modal-content">
+            <h2>Settings</h2>
+            <div class="settings-section">
+                <h3>Time Block Settings</h3>
+                <label>Block Duration:</label>
+                <select id="blockDuration">
+                    <option value="15">15 minutes</option>
+                    <option value="30">30 minutes</option>
+                    <option value="60">1 hour</option>
+                </select>
+                
+                <label>Working Hours:</label>
+                <div class="time-range">
+                    <input type="time" id="startTime" value="09:00">
+                    <span>to</span>
+                    <input type="time" id="endTime" value="17:00">
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Priority Settings</h3>
+                <div class="priority-colors">
+                    <div class="priority-setting">
+                        <label>Priority 1 (High)</label>
+                        <input type="color" id="priority1Color" value="#ff4444">
+                        <input type="text" id="priority1Emoji" value="🔥" maxlength="2">
+                    </div>
+                    <div class="priority-setting">
+                        <label>Priority 2 (Medium)</label>
+                        <input type="color" id="priority2Color" value="#ffbb33">
+                        <input type="text" id="priority2Emoji" value="⭐" maxlength="2">
+                    </div>
+                    <div class="priority-setting">
+                        <label>Priority 3 (Low)</label>
+                        <input type="color" id="priority3Color" value="#00C851">
+                        <input type="text" id="priority3Emoji" value="🌱" maxlength="2">
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-section">
+                <h3>Theme</h3>
+                <button id="toggleTheme">Toggle Dark Mode</button>
+            </div>
+
+            <button id="saveSettings">Save Settings</button>
+        </div>
+    </div>
+
+    <!-- Main Planner Interface -->
+    <div class="container">
+        <div class="header">
+            <div class="date" id="currentDate"></div>
+            <div class="header-buttons">
+                <button id="settingsBtn">⚙️</button>
+                <button id="resetBtn">Reset Day</button>
+            </div>
+        </div>
+        
+        <div class="task-input">
+            <input type="text" id="taskInput" placeholder="Enter a new task...">
+            <select id="prioritySelect">
+                <option value="1">Priority 1 (High)</option>
+                <option value="2">Priority 2 (Medium)</option>
+                <option value="3">Priority 3 (Low)</option>
+            </select>
+            <input type="text" id="taskCategory" placeholder="Category/Tag">
+            <div class="time-input">
+                <input type="time" id="taskStartTime" placeholder="Start Time">
+                <input type="time" id="taskEndTime" placeholder="End Time">
+            </div>
+            <textarea id="taskNotes" placeholder="Notes..."></textarea>
+            <button id="addTaskBtn">Add Task</button>
+        </div>
+
+        <div class="task-list" id="taskList"></div>
+
+        <div class="time-blocks" id="timeBlocks"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
