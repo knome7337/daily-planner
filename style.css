@@ -1,0 +1,129 @@
+body {
+  background: #f4f8fb;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 40px auto;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(30, 64, 175, 0.08);
+  padding: 32px 24px 24px 24px;
+}
+
+h1 {
+  color: #2563eb;
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 700;
+}
+
+#task-form {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+#task-form input, #task-form button {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #dbeafe;
+  font-size: 1rem;
+}
+#task-form input[type="time"] {
+  min-width: 110px;
+}
+#task-form button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+#task-form button:hover {
+  background: #1d4ed8;
+}
+
+#planner {
+  display: flex;
+  gap: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(30, 64, 175, 0.06);
+  background: #e0e7ff;
+}
+#time-column {
+  background: #2563eb;
+  color: #fff;
+  min-width: 110px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-weight: 500;
+}
+.time-slot {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 16px;
+  border-bottom: 1px solid #3b82f6;
+  font-size: 1rem;
+}
+#tasks-column {
+  flex: 1;
+  background: #f4f8fb;
+  display: flex;
+  flex-direction: column;
+}
+.task-block {
+  position: absolute;
+  left: 120px;
+  right: 24px;
+  background: linear-gradient(90deg, #60a5fa 60%, #2563eb 100%);
+  color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(30, 64, 175, 0.10);
+  padding: 10px 18px;
+  margin: 2px 0;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+  border-left: 6px solid #1e40af;
+  transition: box-shadow 0.2s;
+}
+.task-block .task-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.task-block .task-time {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-left: 16px;
+}
+
+@media (max-width: 700px) {
+  .container {
+    padding: 10px 2px;
+  }
+  #planner {
+    flex-direction: column;
+  }
+  #time-column, #tasks-column {
+    min-width: unset;
+    width: 100%;
+  }
+  .task-block {
+    left: 0;
+    right: 0;
+  }
+} 

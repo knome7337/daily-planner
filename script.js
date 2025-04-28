@@ -36,6 +36,13 @@ const startMeditationBtn = document.getElementById('startMeditation');
 const skipMeditationBtn = document.getElementById('skipMeditation');
 const timer = document.getElementById('timer');
 const toggleThemeBtn = document.getElementById('toggleTheme');
+const START_HOUR = 6;
+const END_HOUR = 22;
+const INTERVAL = 15; // minutes
+const timeColumn = document.getElementById('time-column');
+const tasksColumn = document.getElementById('tasks-column');
+const form = document.getElementById('task-form');
+const buzzer = document.getElementById('buzzer');
 
 // Initialize the app
 function init() {
@@ -383,5 +390,82 @@ function setupEventListeners() {
     }
 }
 
+function pad(n) {
+  return n < 10 ? '0' + n : n;
+}
+
+function formatTime(h, m) {
+  const hour = h % 12 === 0 ? 12 : h % 12;
+  const ampm = h < 12 ? 'AM' : 'PM';
+  return `${hour}:${pad(m)} ${ampm}`;
+}
+
+function renderTimeSlots() {
+  timeColumn.innerHTML = '';
+  for (let h = START_HOUR; h < END_HOUR; ++h) {
+    for (let m = 0; m < 60; m += INTERVAL) {
+      const slot = document.createElement('div');
+      slot.className = 'time-slot';
+      slot.textContent = formatTime(h, m);
+      timeColumn.appendChild(slot);
+    }
+  }
+}
+
+function timeToIndex(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  return (h - START_HOUR) * (60 / INTERVAL) + Math.floor(m / INTERVAL);
+}
+
+function renderTasks() {
+  tasksColumn.innerHTML = '';
+  const totalSlots = (END_HOUR - START_HOUR) * (60 / INTERVAL);
+  tasksColumn.style.position = 'relative';
+  tasks.forEach(task => {
+    const startIdx = timeToIndex(task.startTime);
+    const endIdx = timeToIndex(task.endTime);
+    const top = startIdx * 44; // 44px per slot
+    const height = (endIdx - startIdx) * 44;
+    const block = document.createElement('div');
+    block.className = 'task-block';
+    block.style.top = top + 'px';
+    block.style.height = height + 'px';
+    block.style.position = 'absolute';
+    block.innerHTML = `<span class="task-title">${task.text}</span><span class="task-time">${task.startTime} - ${task.endTime}</span>`;
+    tasksColumn.appendChild(block);
+  });
+  tasksColumn.style.height = (totalSlots * 44) + 'px';
+}
+
+form.addEventListener('submit', e => {
+  e.preventDefault();
+  const title = document.getElementById('task-title').value.trim();
+  const start = document.getElementById('start-time').value;
+  const end = document.getElementById('end-time').value;
+  if (!title || !start || !end || start >= end) return;
+  tasks.push({ title, start, end });
+  renderTasks();
+  form.reset();
+});
+
+function checkBuzzer() {
+  const now = new Date();
+  const h = now.getHours();
+  const m = now.getMinutes();
+  const current = pad(h) + ':' + pad(m);
+  tasks.forEach(task => {
+    if (task.end === current && !task.buzzed) {
+      buzzer.play();
+      task.buzzed = true;
+    }
+    if (task.end !== current) {
+      task.buzzed = false;
+    }
+  });
+}
+
 // Initialize the app when the page loads
-document.addEventListener('DOMContentLoaded', init); 
+document.addEventListener('DOMContentLoaded', init);
+renderTimeSlots();
+renderTasks();
+setInterval(checkBuzzer, 1000 * 10); // check every 10 seconds 
